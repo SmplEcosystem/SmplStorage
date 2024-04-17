@@ -15,4 +15,6 @@ modules:
     relativePath: projects/src/lib/modules/data-integrity
     functionalStatements:
       - Retrieves metadata from SQLite database.
-      - If any data is retrieved it attempts to send metadata to TransactionMonitor in the background.
+      - If any data is retrieved it attempts to send metadata to TransactionMonitor in the background using BackgroundRunners for mobile and ServiceWorkers for web.
+      - BackgroundRunners docs -> https://capacitorjs.com/docs/apis/background-runner
+      - ServiceWorkers docs -> https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers
