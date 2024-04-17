@@ -3,10 +3,16 @@ name: SmplStorage
 repository: https://github.com/SmplEcosystem/SmplStorage
 description: Architecture for the SmplStorage system.
 modules:
-  - name: AppModule
-  - name: StateModule
-    description: Holds and manages user data.
-    relativePath: src/app/modules
+  - name: TransactionMetadataStorageModule
+    description: Module that gets metadata from SmplWalletUi and passes it to the TransactionMonitor.
+    relativePath: projects/src/lib/modules/transaction-metadata-storage
     functionalStatements:
-      - Holds user's information after getting it from the client.
-      - Allows for multiple types of objects depending on the withdrawal method that was used
+      - Gets user's transaction metadata from SmplWalletUi.
+      - Saves metadata to the TransactionMonitor.
+      - If save fails, saves metadata to a local SQLite database.
+  - name: DataIntegrityModule
+    description: Module that ensures user metadata is sent to TransactionMonitor.
+    relativePath: projects/src/lib/modules/data-integrity
+    functionalStatements:
+      - Retrieves metadata from SQLite database.
+      - If any data is retrieved it attempts to send metadata to TransactionMonitor in the background.
