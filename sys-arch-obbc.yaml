@@ -1,0 +1,12 @@
+$schema: https://smplecosystem.github.io/SmplArchitecture/openbbc-system.schema.json
+name: SmplStorage
+repository: https://github.com/SmplEcosystem/SmplStorage
+description: Architecture for the SmplStorage system.
+modules:
+  - name: AppModule
+  - name: StateModule
+    description: Holds and manages user data.
+    relativePath: src/app/modules
+    functionalStatements:
+      - Holds user's information after getting it from the client.
+      - Allows for multiple types of objects depending on the withdrawal method that was used
