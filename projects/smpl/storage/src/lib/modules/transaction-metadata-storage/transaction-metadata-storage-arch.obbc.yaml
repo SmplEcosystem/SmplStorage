@@ -46,9 +46,9 @@ files:
             type: string
           firstAndLastName:
             type: string
-  projects:smpl:storage:src:lib:modules:transaction-metadata-storage:cashapp-withdraw.dto.ts:
+  projects:smpl:storage:src:lib:modules:transaction-metadata-storage:cash-app-withdraw.dto.ts:
     classes:
-      CashappWithdrawDto:
+      CashAppWithdrawDto:
         extends:
           - WithdrawalRequestDto
         properties:
