@@ -1,0 +1,14 @@
+$schema: https://smplecosystem.github.io/SmplArchitecture/openbbc-module.schema.json
+name: TransactionMetadataStorageModule
+description: Module that receives and sends transaction metadata and stores it in local database.
+files:
+  projects:smpl:storage:src:lib:modules:transaction-metadata-storage:transaction-metadata-storage.service.ts:
+    classes:
+      TransactionMetadataStorageService:
+        methods:
+          saveWithdrawalMetadata:
+            arguments:
+              - name: withdrawalMetadata
+                type: withdrawalRequest
+            returnType: void
+            description:
