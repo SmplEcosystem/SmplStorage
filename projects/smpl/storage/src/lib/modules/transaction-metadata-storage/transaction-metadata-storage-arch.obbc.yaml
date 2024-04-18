@@ -6,9 +6,63 @@ files:
     classes:
       TransactionMetadataStorageService:
         methods:
+          postWithdrawalMetadata:
+            arguments:
+              - name: withdrawalMetadata
+                type: withdrawalRequest
+            returnType: void
+            description: Retrieves transaction metadata and posts it to the TransactionMonitor, saves metadata to local database if failed.
           saveWithdrawalMetadata:
             arguments:
               - name: withdrawalMetadata
                 type: withdrawalRequest
             returnType: void
-            description:
+            description: Saves transaction metadata to an SQLite database.
+  projects:smpl:storage:src:lib:modules:transaction-metadata-storage:withdrawal-request.dto.ts:
+    classes:
+      WithdrawalRequestDto:
+        properties:
+          hash:
+            type: string
+          withdrawalType:
+            type: string | string | string | string
+  projects:smpl:storage:src:lib:modules:transaction-metadata-storage:binance-withdraw.dto.ts:
+    classes:
+      BinanceWithdrawDto:
+        extends:
+          - WithdrawalRequestDto
+        properties:
+          email:
+            type: string
+          binanceId:
+            type: string
+  projects:smpl:storage:src:lib:modules:transaction-metadata-storage:zelle-withdraw.dto.ts:
+    classes:
+      ZelleWithdrawDto:
+        extends:
+          - WithdrawalRequestDto
+        properties:
+          emailOrPhoneNumber:
+            type: string
+          firstAndLastName:
+            type: string
+  projects:smpl:storage:src:lib:modules:transaction-metadata-storage:cashapp-withdraw.dto.ts:
+    classes:
+      CashappWithdrawDto:
+        extends:
+          - WithdrawalRequestDto
+        properties:
+          name:
+            type: string
+          cashtag:
+            type: string
+  projects:smpl:storage:src:lib:modules:transaction-metadata-storage:venmo-withdraw.dto.ts:
+    classes:
+      VenmoWithdrawDto:
+        extends:
+          - WithdrawalRequestDto
+        properties:
+          name:
+            type: string
+          username:
+            type: string
