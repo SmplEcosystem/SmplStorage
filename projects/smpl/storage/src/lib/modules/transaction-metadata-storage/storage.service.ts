@@ -4,7 +4,5 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class StorageService {
-  smplWalletUiPath: string = 'https://localhost:4200';
-
   constructor() { }
 }
