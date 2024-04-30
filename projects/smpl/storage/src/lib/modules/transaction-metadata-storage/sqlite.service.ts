@@ -10,7 +10,11 @@ export class SqliteService {
   sqlitePlugin: CapacitorSQLitePlugin;
   native: boolean = false;
 
-  constructor() {}
+  constructor() {
+    this.platform = Capacitor.getPlatform();
+    this.sqlitePlugin = CapacitorSQLite;
+    this.sqLiteConnection = new SQLiteConnection(CapacitorSQLite);
+  }
 
   async initializePlugin(): Promise<boolean> {
     this.platform = Capacitor.getPlatform();
@@ -21,24 +25,25 @@ export class SqliteService {
     return true;
   }
 
-  async openDatabase(dbName:string, encrypted: boolean, mode: string, version: number, readonly: boolean): Promise<SQLiteConnection> {
-    let db: SQLiteConnection;
+  async openDatabase(dbName:string, encrypted: boolean, mode: string, version: number, readonly: boolean): Promise<SQLiteDBConnection> {
+    let db: SQLiteDBConnection;
     const retCC = (await this.sqLiteConnection.checkConnectionsConsistency()).result;
     let isConn = (await this.sqLiteConnection.isConnection(dbName, readonly)).result;
     if(retCC && isConn) {
       db = await this.sqLiteConnection.retrieveConnection(dbName, readonly);
     } else {
-      db = await this.sqLiteConnection.createConnection(dbName, encrypted, mode, version, readonly);
+      db = await this.sqLiteConnection
+        .createConnection(dbName, encrypted, mode, version, readonly);
     }
     await db.open();
     return db;
   }
 
-  async retrieveConnection(dbName: string, readonly: boolean): Promise<SQLiteConnection> {
+  async retrieveConnection(dbName: string, readonly: boolean): Promise<SQLiteDBConnection> {
     return await this.sqLiteConnection.retrieveConnection(dbName, readonly);
   }
   async closeConnection(database: string, readonly?: boolean): Promise<void> {
     const readOnly = readonly ? readonly : false;
-    return await this.sqliteConnection.closeConnection(database, readOnly);
+    return await this.sqLiteConnection.closeConnection(database, readOnly);
   }
 }

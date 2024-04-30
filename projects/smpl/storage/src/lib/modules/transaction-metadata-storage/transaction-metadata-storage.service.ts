@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import {SqliteService} from './sqlite.service';
 import {WithdrawalRequestDto} from "./withdrawal-request-dto";
+import { Capacitor } from '@capacitor/core';
+import { CapacitorSQLite, SQLiteConnection, SQLiteDBConnection, CapacitorSQLitePlugin,
+  capSQLiteUpgradeOptions, capSQLiteResult, capSQLiteValues} from '@capacitor-community/sqlite';
 
 @Injectable({
   providedIn: 'root'
