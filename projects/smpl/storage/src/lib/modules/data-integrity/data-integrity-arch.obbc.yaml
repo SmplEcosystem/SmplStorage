@@ -1,0 +1,20 @@
+$schema: https://smplecosystem.github.io/SmplArchitecture/openbbc-module.schema.json
+name: DataIntegrityModule
+description: Module in charge of insuring user metadata is posted to TransactionMonitor.
+files:
+  projects:smpl:storage:src:lib:modules:data-integrity:data-integrity.service.ts:
+    classes:
+      DataIntegrityService:
+        methods:
+          backgroundMetadataPost:
+            arguments:
+              - name: withdrawMetadata
+                type: WithdrawalRequestDto
+            returnType: void
+            description:
+              - Retrieves data from local database.
+              - If on desktop data is handed to service workers to make a post to TransactionMonitor in the background.
+              - If on mobile data is handed to background runners to make a post to TransactionMonitor in the background.
+          backgroundInit:
+            returnType: void
+            description: Initializes background runners and service workers.
