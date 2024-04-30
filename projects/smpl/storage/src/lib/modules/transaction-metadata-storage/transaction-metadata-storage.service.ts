@@ -9,29 +9,35 @@ import { CapacitorSQLite, SQLiteConnection, SQLiteDBConnection, CapacitorSQLiteP
   providedIn: 'root'
 })
 export class TransactionMetadataStorageService {
-  private database: SQLiteDBConnection;
+  private database!: SQLiteDBConnection;
 
   constructor(
     private sqliteService: SqliteService
   ) {
-    this.initalizeDatabhase();
+    this.initializeDatabase();
   }
 
   async postWithdrawalMetadata(withdrawalMetadata: WithdrawalRequestDto): Promise<void> {
   }
 
   async initializeDatabase(): Promise<void> {
-    this.database = await this.sqliteService.openDatabase({
-      dbName: 'databaseName',
-      encrypted: false,
-      mode: 'full',
-      version: 1,
-      readonly: false
-    });
+    this.database = await this.sqliteService.openDatabase(
+      'databaseName',
+      false,
+      'full',
+      1,
+      false
+    );
   }
 
-  saveWithdrawalMetadata(withdrawalMetadata: WithdrawalRequestDto): void {
-    this.database.save('withdrawal_metadata', withdrawalMetadata).catch(error => console.error('Failed to save metadata'. error));
+  async saveWithdrawalMetadata(withdrawalMetadata: WithdrawalRequestDto): Promise<void> {
+    const sql = 'INSERT INTO withdrawal_metadata (column1, column2) VALUES (?, ?)';
+    try {
+      await this.database.run(sql, [withdrawalMetadata.hash, withdrawalMetadata.withdrawalType]);
+      console.log("Metadata saved successfully");
+    } catch (error) {
+      console.error("Failed to save metadata:", error);
+    }
   }
 
 }
