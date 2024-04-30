@@ -1,0 +1,124 @@
+$schema: https://smplecosystem.github.io/SmplArchitecture/openbbc-module.schema.json
+name: TransactionMetadataStorageModule
+description: Module that receives and sends transaction metadata and stores it in local database.
+files:
+  projects:smpl:storage:src:lib:modules:transaction-metadata-storage:transaction-metadata-storage.service.ts:
+    classes:
+      TransactionMetadataStorageService:
+        properties:
+          database:
+            type: SQLiteDBConnection
+        methods:
+          postWithdrawalMetadata:
+            arguments:
+              - name: withdrawalMetadata
+                type: withdrawalRequest
+            returnType: void
+            description: Retrieves transaction metadata and posts it to the TransactionMonitor, saves metadata to local database if failed.
+          initializeDatabase:
+            returnType: Promise<void>
+            description: Initializes SQLite database.
+          saveWithdrawalMetadata:
+            arguments:
+              - name: withdrawalMetadata
+                type: withdrawalRequest
+            returnType: void
+            description: Saves transaction metadata to an SQLite database.
+  projects:smpl:storage:src:lib:modules:transaction-metadata-storage:sqlite.service.ts:
+    classes:
+      SQLiteService:
+        properties:
+          sqliteConnection:
+            type: SQLiteConnection;
+          isService:
+            type: boolean
+            defaultValue: false
+          platform:
+            type: string
+          sqlitePlugin:
+            type: CapacitorSQLitePlugin
+          native:
+            type: boolean
+            defaultValue: false
+        methods:
+          initializePlugin:
+            returnType: Promise<boolean>
+          initWebStore:
+            returnType: Promise<void>
+            description: Initializes storage for desktop.
+          openDatabase:
+            arguments:
+              - dbName:
+                  type: string
+              - encrypted:
+                  type: boolean
+              - mode:
+                  type: string
+              - version:
+                  type: number
+              - readonly:
+                  type: boolean
+            returnType: Promise<SQLiteDBConnection>
+            description: Creates database.
+          retrieveConnection:
+            arguments:
+              - dbName:
+                  type: string
+              - readonly:
+                  type: boolean
+            returnType: Promise<SQLiteDBConnection>
+          closeConnection:
+            arguments:
+              - database:
+                  type: string
+              - readonly:
+                  type: boolean
+            returnType: Promise<void>
+  projects:smpl:storage:src:lib:modules:transaction-metadata-storage:withdrawal-request.dto.ts:
+    classes:
+      WithdrawalRequestDto:
+        properties:
+          hash:
+            type: string
+          withdrawalType:
+            type: string | string | string | string
+  projects:smpl:storage:src:lib:modules:transaction-metadata-storage:binance-withdraw.dto.ts:
+    classes:
+      BinanceWithdrawDto:
+        extends:
+          - WithdrawalRequestDto
+        properties:
+          email:
+            type: string
+          binanceId:
+            type: string
+  projects:smpl:storage:src:lib:modules:transaction-metadata-storage:zelle-withdraw.dto.ts:
+    classes:
+      ZelleWithdrawDto:
+        extends:
+          - WithdrawalRequestDto
+        properties:
+          emailOrPhoneNumber:
+            type: string
+          firstAndLastName:
+            type: string
+  projects:smpl:storage:src:lib:modules:transaction-metadata-storage:cash-app-withdraw.dto.ts:
+    classes:
+      CashAppWithdrawDto:
+        extends:
+          - WithdrawalRequestDto
+        properties:
+          name:
+            type: string
+          cashtag:
+            type: string
+  projects:smpl:storage:src:lib:modules:transaction-metadata-storage:venmo-withdraw.dto.ts:
+    classes:
+      VenmoWithdrawDto:
+        extends:
+          - WithdrawalRequestDto
+        properties:
+          name:
+            type: string
+          username:
+            type: string

@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { StorageService } from './storage.service';
+import { TransactionMetadataStorageService } from './transaction-metadata-storage.service';
 
 describe('StorageService', () => {
-  let service: StorageService;
+  let service: TransactionMetadataStorageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(StorageService);
+    service = TestBed.inject(TransactionMetadataStorageService);
   });
 
   it('should be created', () => {
